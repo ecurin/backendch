@@ -1,38 +1,92 @@
 [
 	{
 		"id": 1,
-		"title": "Product A",
-		"description": "Malliot 1",
+		"title": "Tricota Amarilla",
+		"description": "Malliot amarillo tour france",
 		"price": 1000,
 		"thumbnail": "malliot.jpg",
-		"code": "m123",
+		"code": "t123",
 		"stock": 10
 	},
 	{
 		"id": 2,
-		"title": "Product B",
-		"description": "SHORT 1",
+		"title": "Calza larga",
+		"description": "Calza larga negra",
 		"price": 1000,
 		"thumbnail": "short.jpg",
-		"code": "s123",
+		"code": "c123",
 		"stock": 10
 	},
 	{
 		"id": 3,
-		"title": "Product C",
-		"description": "Zapatilla 1",
+		"title": "Casco blanco",
+		"description": "Casco blanco Specialized",
 		"price": 1000,
-		"thumbnail": "zapato.jpg",
-		"code": "z123",
+		"thumbnail": "casco.jpg",
+		"code": "c1234",
 		"stock": 10
 	},
 	{
 		"id": 4,
-		"title": "Product D",
-		"description": "Malliot 1",
+		"title": "Guantes cortos",
+		"description": "Guantes negros sin dedos",
 		"price": 1000,
-		"thumbnail": "malliot.jpg",
-		"code": "x1234",
+		"thumbnail": "guantes.jpg",
+		"code": "g1234",
+		"stock": 10
+	},
+	{
+		"id": 5,
+		"title": "Zapatos negros",
+		"description": "Zapatos negros carbono",
+		"price": 1000,
+		"thumbnail": "zapnegro.jpg",
+		"code": "zn1",
+		"stock": 10
+	},
+	{
+		"id": 6,
+		"title": "Zapatos blancos",
+		"description": "Zapatos blancos planta carbono",
+		"price": 1000,
+		"thumbnail": "zapblancos.jpg",
+		"code": "zb234",
+		"stock": 10
+	},
+	{
+		"id": 7,
+		"title": "Casco Negro",
+		"description": "Casco negro Spiuk",
+		"price": 1000,
+		"thumbnail": "casconegro.jpg",
+		"code": "cn1234",
+		"stock": 10
+	},
+	{
+		"id": 8,
+		"title": "Calcetas Blancas",
+		"description": "Calcetas blancas Willier",
+		"price": 1000,
+		"thumbnail": "calblancas.jpg",
+		"code": "cb34",
+		"stock": 10
+	},
+	{
+		"id": 9,
+		"title": "Tricota puntos",
+		"description": "Tricota blaca puntos rojos",
+		"price": 1000,
+		"thumbnail": "malliotbpr.jpg",
+		"code": "mpr123",
+		"stock": 10
+	},
+	{
+		"id": 10,
+		"title": "Tricota Verde",
+		"description": "Malliot Verde",
+		"price": 1000,
+		"thumbnail": "malliotverde.jpg",
+		"code": "mv234",
 		"stock": 10
 	}
 ]
