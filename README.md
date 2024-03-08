@@ -1,8 +1,8 @@
 # Tarea Servidor Express
 Repositorio para las tareas del modulo backend de coderhouse 
 
-Para la tares servidor express
-Se debe ejecutar node appProducts.js 
+Para la tarea servidor express y endpoint
+Se debe ejecutar en la consola  ## node ApiProducts.js ##
 
 # Ejecución del sitio
 
