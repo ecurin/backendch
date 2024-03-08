@@ -6,14 +6,16 @@ Se debe ejecutar en la consola  node ApiProducts.js
 
 # Ejecución del sitio
 
-## http://servidor:8080/products           
-Muestra todos los productos (10)
+## Muestra todos los productos (10)
+http://servidor:8080/products           
 
-## http://servidor:8080/products?limit
-Muestra los primeros limit=numero productos 
 
-## http://servidor:8080/products/1   
-Muestra el producto id = 1, puede ser hasta el id 10
+## Muestra los primeros limit=numero productos 
+http://servidor:8080/products?limit
+
+
+## Muestra el producto id = 1, puede ser hasta el id 10
+http://servidor:8080/products/1   
 
 ## Nuevo producto (metodo POST)
 http://localhost:8080/api/products/
