@@ -1,20 +1,20 @@
 const fs = require('fs')
-const filename = '../assets/Products.json'
+const filename = '../assets/Cart.json'
 
 
-class ProductManager {
+class CartManager {
 
-    #products = []
+    #carts = []
 
     #maxId = 0
 
     constructor(){
-        this.#products = []
+        this.#carts = []
     }
 
     /**
      * Utilizado para obtener el mayor ID del arreglo 
-     * con este valor luego se aumenta para registrar un nuevo producto
+     * con este valor luego se aumenta para registrar un nuevo carro
      */
     getMaxId(arr) {
         let max=0
@@ -28,9 +28,9 @@ class ProductManager {
     }
 
     async initialize() {
-        this.#products = await this.readProductsFromFile()
+        this.#carts = await this.readCartsFromFile()
 
-        this.#maxId = this.getMaxId(this.#products) 
+        this.#maxId = this.getMaxId(this.#carts) 
 
     }
 
@@ -39,11 +39,11 @@ class ProductManager {
      * @returns array con registros
      */
 
-    async readProductsFromFile() {
+    async readCartsFromFile() {
         try {
-            const ProductsFileContent = await fs.promises.readFile(filename, 'utf-8')
+            const CartsFileContent = await fs.promises.readFile(filename, 'utf-8')
 
-            const jsonFC = JSON.parse(ProductsFileContent)
+            const jsonFC = JSON.parse(CartsFileContent)
 
             return jsonFC
         }
@@ -56,8 +56,8 @@ class ProductManager {
      * 
      * @returns Obtiene todos productos
      */
-    async getProducts(){
-        return await this.readProductsFromFile()
+    async getCarts(){
+        return await this.readCartsFromFile()
     }
 
 
@@ -67,18 +67,16 @@ class ProductManager {
      * @param {code} codigo del producto
      * @returns indice del producto
      */
-    findProductIndex(code){
+    findCartIndex(code){
 
-        const productIndex = this.#products.findIndex(p => p.code === code)
+        const cartIndex = this.#carts.findIndex(p => p.code === code)
 
-        return productIndex
+        return cartIndex
 
     }
 
 
-    async isNumeric(value) {
-        return /^\d+$/.test(value);
-    }
+
     /**
      * 
      * Agreamos un nuevo producto previamente se validar que este no exista
@@ -92,15 +90,14 @@ class ProductManager {
      * @param {Boolean} status 
      * @returns 
      */
-    async addProduct(title, description, price, thumbnail, code, stock, status=true ) {
+    async addProduct2Cart(idc,idp, cant) {
 
-        if(!title || !description || !price || !thumbnail || !code || !stock)
+        if(!idc || !idp || !cant )
             return 'Debe enviar todos los valores (title, description, price, thumbnail, code, stock, status)'
 
 
-            if (isNaN(price))      return 'Price no válidos'
+            if (isNaN(cant))      return 'Cantidad no válida'
 
-            if (isNaN(stock))      return 'Stock no válidos'
 
         const productIndex = this.findProductIndex(code) 
 
@@ -112,18 +109,13 @@ class ProductManager {
 
         const id = this.#maxId++
 
-        const product = {
-            id,
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock,
-            status
+        const cart = {
+            idc,
+            idp,
+            cant
         }
 
-        this.#products.push(product) 
+        this.#carts.push(product) 
 
         return await this.#updateFile()  
 
@@ -137,14 +129,14 @@ class ProductManager {
          * @param {identificador del producto} idProd 
          * @returns 
          */
-    async getProductById(idProd){
+    async getCartById(idc){
 
-        const prdBuscado = this.#products.find(prd => prd.id ===idProd)
-        if(!prdBuscado){
+        const cartBuscado = this.#cart.find(cart => cart.id ===idc)
+        if(!cartBuscado){
             console.error("producto no encontrado")
             return 
         }
-        return prdBuscado
+        return cartBuscado
             
     }
 
