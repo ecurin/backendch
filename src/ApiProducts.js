@@ -2,12 +2,17 @@ const express = require("express");
 
 const manager = require("./ProductManager");
 
+const cManager = require("./CartManager");
+
+
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // para que nuestro server sepa entender JSON
 
-productsManager = new manager();
+productsManager = new manager()
+
+cartsManager = new cManager()
 
 app.get("/", async (req, res) => {
      res.end("Bienvenido...");
@@ -74,8 +79,15 @@ app.post("/api/products/",async (req, res) => {
 /**
  * Endpoint Cart
  */
-app.get("/carts/:id", async (req, res) => {
+app.get("/carts/", async (req, res) => {
 
+    res.end("se requiere id");
+  
+})
+
+app.get("/carts/:idc", async (req, res) => {
+
+  
   const product = await productsManager.getProductById(parseInt(req.params.id)); //req.params.id)
 
   if (product) {
@@ -83,9 +95,31 @@ app.get("/carts/:id", async (req, res) => {
   } else {
     res.end("error, Producto no Encontrado");
   }
-});
+})
 
 
+app.post("/api/cart/",async (req, res) => {
+
+  console.log(req.query.idc, req.query.idp, req.query.quantity)
+
+  const status = await cartsManager.addProduct2Cart(req.query.idc, req.query.idp, req.query.quantity)
+
+  console.log(status)
+  if (status===true)
+     res.send({status:'ok',message:'producto agregado al carro'})
+  else
+    res.send({status:'error', message: status})
+  
+})
+
+
+
+
+/** 
+ * ======================
+ */
+
+cartsManager.initialize()
 
 productsManager.initialize()
     .then(() => {

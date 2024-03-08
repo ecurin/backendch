@@ -44,7 +44,7 @@ class CartManager {
             const CartsFileContent = await fs.promises.readFile(filename, 'utf-8')
 
             const jsonFC = JSON.parse(CartsFileContent)
-
+            console.log(jsonFC)
             return jsonFC
         }
         catch (err) {
@@ -64,12 +64,12 @@ class CartManager {
     /**
      * Busca la posición del producto dentro del array
      * 
-     * @param {code} codigo del producto
+     * @param {id} codigo del producto
      * @returns indice del producto
      */
-    findCartIndex(code){
+    findCartIndex(idcart){
 
-        const cartIndex = this.#carts.findIndex(p => p.code === code)
+        const cartIndex = this.#carts.findIndex(c => c.id === idcart)
 
         return cartIndex
 
@@ -84,40 +84,53 @@ class CartManager {
      * @param {String} title 
      * @param {String} description 
      * @param {Number} price 
-     * @param {String} thumbnail 
-     * @param {String} code 
-     * @param {Number} stock 
-     * @param {Boolean} status 
      * @returns 
      */
-    async addProduct2Cart(idc,idp, cant) {
+    async addProduct2Cart(idc,idp, quantity) {
 
-        if(!idc || !idp || !cant )
-            return 'Debe enviar todos los valores (title, description, price, thumbnail, code, stock, status)'
-
-
-            if (isNaN(cant))      return 'Cantidad no válida'
+        if(!idc || !idp || !quantity )
+            return 'Debe enviar todos los valores (idc, idp, cant)'
 
 
-        const productIndex = this.findProductIndex(code) 
+        if (isNaN(quantity))      return 'Cantidad no válida'
 
-        if(productIndex > -1){
-            console.error('Producto ya existe')
-            return 'Producto ya existe'
+        const cartIndex = this.findCartIndex(idc) 
+        
+
+        //carro ya existe por lo que buscamos sus productos
+        if(cartIndex > -1){
+
+            const cart = this.#carts[cartIndex]
+
+            const products = cart["products"]
+
+            const pIndex  = products.findIndex(c => c.id === idp)
+
+            if(pIndex>-1){
+                console.log('producto encontrado' , products[pIndex])
+                const product = products[pIndex]
+                let cant = parseInt(product.quantity) + parseInt(quantity)
+                console.log('nueva cantidad ' , cant)
+            }
+
+
+        }else{
+            const id = this.#maxId++
+
+            const products = [{'id':idp, 'quantity':quantity}]
+
+            const cart = {
+                'id':idc,
+                'products':products
+            }
+    
+            this.#carts.push(cart) 
+    
+            return await this.#updateFile()  
         }
 
 
-        const id = this.#maxId++
-
-        const cart = {
-            idc,
-            idp,
-            cant
-        }
-
-        this.#carts.push(product) 
-
-        return await this.#updateFile()  
+        
 
         
 
@@ -131,9 +144,9 @@ class CartManager {
          */
     async getCartById(idc){
 
-        const cartBuscado = this.#cart.find(cart => cart.id ===idc)
+        const cartBuscado = this.#carts.find(cart => cart.id ===idc)
         if(!cartBuscado){
-            console.error("producto no encontrado")
+            console.error("Carro no encontrado")
             return 
         }
         return cartBuscado
@@ -145,7 +158,7 @@ class CartManager {
      * Actualiza el contenido del archivo con los productos actualizados
      */
     async #updateFile() {
-        await fs.promises.writeFile(filename, JSON.stringify(this.#products, null, '\t'))
+        await fs.promises.writeFile(filename, JSON.stringify(this.#carts, null, '\t'))
 
         return true
     }
@@ -158,7 +171,7 @@ class CartManager {
 
 
         console.log("Nuevos datos => " , updatedProduct)
-        const productIndex = this.findProductIndex(updatedProduct.code) 
+        const cartIndex = this.findProductIndex(updatedProduct.code) 
 
         if (productIndex < 0) {
             console.error('Producto no encontrado')
@@ -166,8 +179,8 @@ class CartManager {
         }
 
         // grabamos los cambios en el arreglo
-        const product = { ...this.#products[productIndex], ...updatedProduct }
-        this.#products[ productIndex ] = product
+        const cart = { ...this.#carts[cartIndex], ...updatedProduct }
+        this.#carts[ cartIndex ] = cart
 
         await this.#updateFile()
     }
@@ -186,7 +199,7 @@ class CartManager {
 
         
         //quitamos el producto utilizando su ubicación
-        this.#products.splice(productIndex, 1)
+        this.#carts.splice(productIndex, 1)
 
         await this.#updateFile()
     }
@@ -195,5 +208,5 @@ class CartManager {
 
 }
 
-module.exports = ProductManager 
+module.exports = CartManager 
 
