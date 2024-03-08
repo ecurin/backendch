@@ -106,18 +106,31 @@ class CartManager {
 
             const pIndex  = products.findIndex(c => c.id === idp)
 
+            //producto ya existe en el carro
             if(pIndex>-1){
-                console.log('producto encontrado' , products[pIndex])
-                const product = products[pIndex]
-                let cant = parseInt(product.quantity) + parseInt(quantity)
-                console.log('nueva cantidad ' , cant)
+                
+                const updatedProduct = {'id': products[pIndex].id, 'quantity':    parseInt(products[pIndex].quantity) + parseInt(quantity)}
+
+                const prod = { ...products[pIndex], ...updatedProduct }
+
+                products[pIndex] = updatedProduct
+
+                cart["products"] = products
+
+                console.log('carro actualizado' , cart )
+
+                this.#carts[ cartIndex ] = cart
+            }else{
+                const product = {'id':idp, 'quantity': parseInt(quantity)}
+                products.push(product)
+
             }
 
 
         }else{
             const id = this.#maxId++
 
-            const products = [{'id':idp, 'quantity':quantity}]
+            const products = [{'id':idp, 'quantity': parseInt(quantity)}]
 
             const cart = {
                 'id':idc,
@@ -126,8 +139,9 @@ class CartManager {
     
             this.#carts.push(cart) 
     
-            return await this.#updateFile()  
         }
+
+        return await this.#updateFile()  
 
 
         
